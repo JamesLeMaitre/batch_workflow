@@ -1,0 +1,37 @@
+spring:
+  profiles:
+    active: development
+
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    username: postgres
+    password: admin01
+    url: jdbc:postgresql://localhost:5432/batch_db
+
+  jpa:
+    show-sql: true
+    generate-ddl: true
+    hibernate:
+      ddl-auto: create-drop
+    database: postgresql
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+
+  sql:
+    init:
+      platform: postgres
+
+  batch:
+    jdbc:
+      initialize-schema: always
+    job:
+      enabled: false
+
+logging:
+  pattern:
+    console: "%d %-5level %logger : %msg%n"
+    level:
+      org.springframework: info
+      org.hibernate: debug
+
+server:
+  port: 9090
