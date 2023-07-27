@@ -1,37 +1,41 @@
+server:
+  port: 8081
+  #server.error.whitelabel.enabled=false
 spring:
-  profiles:
-    active: development
-
   datasource:
-    driver-class-name: org.postgresql.Driver
-    username: postgres
-    password: admin01
-    url: jdbc:postgresql://localhost:5432/batch_db
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/db_batch
+    username: root
+    password:
 
   jpa:
-    show-sql: true
-    generate-ddl: true
     hibernate:
-      ddl-auto: create-drop
-    database: postgresql
-    database-platform: org.hibernate.dialect.PostgreSQLDialect
-
-  sql:
-    init:
-      platform: postgres
-
+      ddl-auto: create
+    show-sql: true
+#    database-platform: org.hibernate.dialect.MySQL5Dialect
+    defer-datasource-initialization: true
+    open-in-view: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQLDialect
   batch:
     jdbc:
       initialize-schema: always
+      isolation-level-for-create: serializable
+      table-prefix: BATCH_
+
     job:
       enabled: false
+      name: importEmployees
 
-logging:
-  pattern:
-    console: "%d %-5level %logger : %msg%n"
-    level:
-      org.springframework: info
-      org.hibernate: debug
-
-server:
-  port: 9090
+  mvc:
+    throw-exception-if-no-handler-found: true
+  web:
+    resources:
+      add-mappings: false
+  jackson:
+    serialization:
+      fail-on-empty-beans: false
+  sql:
+    init:
+      mode: always
